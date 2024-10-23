@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestión de Productos</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .student-info {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="student-info">
+        <h2>SEGUNDO PARCIAL TEM-742</h2>
+        {% if nombre == 'No definido' %}
+        <form method="POST" action="{{ url_for('set_student') }}">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" required>
+            <label>Carnet:</label>
+            <input type="text" name="carnet" required>
+            <button type="submit">Guardar</button>
+        </form>
+        {% else %}
+        <p>Nombre: {{ nombre }}</p>
+        <p>Carnet: {{ carnet }}</p>
+        {% endif %}
+    </div>
+
+    <h1>Gestión de productos</h1>
+    <a href="{{ url_for('agregar_producto') }}">Nuevo producto</a>
+    
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Fecha Venc.</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+        </tr>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.cantidad }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.fecha_vencimiento }}</td>
+            <td>{{ producto.categoria }}</td>
+            <td>
+                <a href="{{ url_for('editar_producto', id=producto.id) }}">Editar</a>
+                <a href="{{ url_for('eliminar_producto', id=producto.id) }}" onclick="return confirm('¿Está seguro de eliminar este producto?')">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
